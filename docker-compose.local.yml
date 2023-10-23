@@ -6,6 +6,34 @@ networks:
     driver: bridge
 
 services:
+  sidekiq:
+    tty: true
+    stdin_open: true
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /bundle
+    command: bundle exec sidekiq
+
+  redis:
+    image: redis:7.0.2-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app
+    volumes:
+      - redis-data:/data
+
   db:
     image: postgres:12-alpine
     env_file:
@@ -26,6 +54,7 @@ services:
     platform: linux/x86_64
     depends_on:
       - db
+      - redis
     networks:
         - app
     build:
@@ -40,7 +69,7 @@ services:
       - .:/app
       - /bundle
 
-
 volumes:
   db-data:
+  redis-data:
 

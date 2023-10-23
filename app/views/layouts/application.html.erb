@@ -6,20 +6,31 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"></script>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
 
-    <div id="user-menu">
-      <% if user_signed_in? %>
-        <%= link_to "Log Out", destroy_user_session_path, data: { "turbo-method": :delete } %>
-      <% end %>
-    </div>
+    <% if alert %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
 
-    <%= yield %>
+    <% if current_user %>
+      <%= render 'shared/nav' %>
+    <% end %>
+
+    <!-- Main -->
+    <main class="py-6 bg-surface-secondary">
+      <%= yield %>
+    </main>
   </body>
 </html>
