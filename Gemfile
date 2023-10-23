@@ -52,6 +52,9 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'dotenv-rails'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -72,3 +75,16 @@ group :test do
 end
 
 gem 'devise'
+
+gem 'nokogiri'
+gem 'httparty'
+# gem "sassc-rails"
+gem "bootstrap"
+
+gem 'will_paginate', '~> 4.0'
+gem 'kaminari'
+gem 'bootstrap5-kaminari-views'
+# add cors
+gem 'rack-cors', :require => 'rack/cors'
+
+gem 'sidekiq'
