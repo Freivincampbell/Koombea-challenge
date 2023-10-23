@@ -1,0 +1,75 @@
+version: '3.5'
+
+networks:
+  app:
+    name: network-app
+    driver: bridge
+
+services:
+  sidekiq:
+    tty: true
+    stdin_open: true
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /bundle
+    command: bundle exec sidekiq
+
+  redis:
+    image: redis:7.0.2-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app
+    volumes:
+      - redis-data:/data
+
+  db:
+    image: postgres:12-alpine
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    ports:
+      - "5432:5432"
+    networks:
+      - app
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  rails_app:
+    tty: true
+    stdin_open: true
+    platform: linux/x86_64
+    depends_on:
+      - db
+      - redis
+    networks:
+        - app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /bundle
+
+volumes:
+  db-data:
+  redis-data:
+

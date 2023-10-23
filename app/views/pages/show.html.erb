@@ -1,0 +1,65 @@
+<div class="login-page bg-light save-form">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="bg-white shadow rounded">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-left h-100 py-5 px-5">
+                <div class="row">
+                  <div class="col-8">
+                    <p><b>Page title:</b> <%= @page.title %></p>
+                  </div>
+                  <div class="col-4">
+                    <p><b>Total Links:</b> <%= @page.total_links %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid pr-table">
+  <!--  table information -->
+  <div class="card shadow border-0 mb-7">
+    <div class="card-header">
+      <%= link_to root_path, class: "btn btn-link" do %>
+        <i class="bi bi-arrow-bar-left"></i> Back
+      <% end %>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover table-nowrap">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Total Links</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @links.each do |link| %>
+          <tr>
+            <td>
+              <div class="truncated-link">
+                <%= link.name %>
+              </div>
+            </td>
+            <td>
+              <%= link.url %>
+            </td>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer border-0 py-5">
+      <%= will_paginate @links, class: "flickr_pagination" %>
+
+    </div>
+  </div>
+</div>

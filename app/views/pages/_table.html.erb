@@ -1,0 +1,45 @@
+<div class="container-fluid pr-table">
+  <!--  table information -->
+  <div class="card shadow border-0 mb-7">
+    <!--    <div class="card-header">-->
+    <!--      <h5 class="mb-0">Applications</h5>-->
+    <!--    </div>-->
+    <div class="table-responsive">
+      <table class="table table-hover table-nowrap">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Total Links</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @pages.each do |page| %>
+          <tr>
+            <td>
+              <div class="truncated-link">
+                <% if page.done? %>
+                  <%= link_to page.title, page_path(page) %>
+                <% else %>
+                  <p class="text-muted">Page Processing</p>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <% if page.done? %>
+                <%= page.total_links %>
+              <% else %>
+                <p class="text-muted">Processing</p>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer border-0 py-5">
+      <%= will_paginate @pages, class: "flickr_pagination" %>
+
+    </div>
+  </div>
+</div>
